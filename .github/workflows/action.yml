@@ -5,9 +5,9 @@ jobs:
     runs-on: ubuntu-latest  # Указываем на каком раннере запускать наши job
     steps:
       # Далее описываются команды, выполняемые внутри секции workflow
-      - name: list dir
-        run: ls -la  # Распечатать текущую директорию
+#      - name: list dir
+#        run: ls -la  # Распечатать текущую директорию
       - name: clone code
         uses: actions/checkout@v2  # Использ. код, разраббот. до нас
-      - name: list dir 2
-        run: ls -la
+      - name: docker build
+        run: docker build -t georgiyshvets/sky_pro_homework:$GITHUB_REF_NAME-$GITHUB_RUN_ID .
