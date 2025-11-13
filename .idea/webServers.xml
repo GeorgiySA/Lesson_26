@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="c10d4800-645a-42da-ad29-f7ba2cf01436" name="gshvets">
+        <fileTransfer rootFolder="/home/gshvets/flask_app_docker" accessType="SFTP" host="51.250.47.28" port="22" sshConfigId="0cde9e0b-1899-49cf-9810-b46673989d5b" sshConfig="gshvets@51.250.47.28:22 agent" authAgent="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

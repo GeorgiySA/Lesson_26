@@ -1,0 +1,46 @@
+# version: "3.9"
+
+services:
+  api:  # Контейнер с api
+    build:
+      context: .  # Собирается из текущей директории
+    image: georgiyshvets/sky_pro_homework
+    ports:
+      - 80:80
+    volumes:
+      - ./docker_config.py:/code/default_config.py  # Файл с конфигурацией
+    depends_on:
+      pg:
+        condition: service_healthy
+      migrations:  # Условие, чтобы контейнер api опирался на контейнер с миграциями
+        condition: service_completed_successfully  # Условие - дождаться, чтобы миграции были успешно применены
+
+  migrations:  # Контейнер с миграциями
+    build:
+      context: .  # Собирается из текущей директории
+    image: georgiyshvets/sky_pro_homework
+    volumes:
+      - ./docker_config.py:/code/default_config.py  # Файл с конфигурацией
+    depends_on:  # Указывем, чтобы дождался когда запуститься контейнер postgres
+      pg:
+        condition: service_healthy
+    command: flask db upgrade
+
+  pg:
+    image: postgres:15  # Указываем конкретную версию
+    environment:
+      POSTGRES_USER: flask_app
+      POSTGRES_PASSWORD: flask_app_password
+      POSTGRES_DB: flask_app
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flask_app -d flask_app"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s  # Устанавливаем период ожидания старта
+    restart: unless-stopped  # Устанавливаем автоматический перезапуск
+
+volumes:
+  pg_data: # Обновляем named volume

@@ -1,0 +1,13 @@
+name: Build and deploy workflow
+on: [push]
+jobs:
+  build_and_push:  # Часть CI
+    runs-on: ubuntu-latest  # Указываем на каком раннере запускать наши job
+    steps:
+      # Далее описываются команды, выполняемые внутри секции workflow
+      - name: list dir
+        run: ls -la  # Распечатать текущую директорию
+      - name: clone code
+        uses: actions/checkout@v2  # Использ. код, разраббот. до нас
+      - name: list dir 2
+        run: ls -la
